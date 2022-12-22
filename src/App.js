@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
 import './App.css';
+import Login from './components/Login';
+import Registration from './components/Registration';
+import auth from './firebase.init';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [signOut, loading, error] = useSignOut(auth);
+  const [user] = useAuthState(auth);
+  return (    
+    <div className=''>
+      <p className='text-center text-3xl font-semibold text-sky-500'>{user ? user.displayName  : "No User Login"}</p>
+      <button className='bg-red-300 p-5 rounded-md' onClick={() => signOut()}>sign out</button>
+      <Registration/>
+      <Login/>
     </div>
   );
 }
